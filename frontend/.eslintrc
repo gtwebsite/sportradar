@@ -1,0 +1,7 @@
+{
+  "extends": [
+    "react-app",
+    "prettier",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
+  ]
+}
