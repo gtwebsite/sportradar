@@ -1,0 +1,21 @@
+{
+  "name": "NHL games feed",
+  "games": [
+    {
+      "id": "d53c31e5-4639-474d-a9bf-1a93830364a2",
+      "status": "Live",
+      "teams": [
+        "3dec6239-aece-4d46-ae7a-d7ff02267c14",
+        "f96cbcf0-e897-4a16-8b92-ded72a1c1779"
+      ]
+    },
+    {
+      "id": "cd8ac660-97e5-440e-a730-8c63d2e763e9",
+      "status": "Live",
+      "teams": [
+        "3dec6239-aece-4d46-ae7a-d7ff02267c14",
+        "001da9a9-dcd2-476d-add5-dfca05682bca"
+      ]
+    }
+  ]
+}

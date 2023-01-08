@@ -9,3 +9,60 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Game {
+  id              String     @id @default(uuid())
+  status          Status     @default(Scheduled)
+  dateTimeStarted DateTime?  @default(now())
+  dateTimeEnded   DateTime?
+  gameplay        GamePlay[]
+  teams           String[]
+}
+
+model GamePlay {
+  id                String   @id @default(uuid())
+  playerAge         Int
+  playerNumber      Int
+  playerPosition    Position
+  player            Player   @relation(fields: [playerId], references: [id])
+  playerId          String
+  team              Team     @relation("OwnTeam", fields: [teamId], references: [id])
+  teamId            String
+  opponentTeam      Team     @relation("OpponentTeam", fields: [opponentTeamId], references: [id])
+  opponentTeamId    String
+  game              Game     @relation(fields: [gameId], references: [id])
+  gameId            String
+  assists           Int
+  goals             Int
+  hits              Int
+  points            Int
+  penalityInMinutes Int
+}
+
+model Team {
+  id                String     @id @default(uuid())
+  name              String
+  gamePlays         GamePlay[] @relation("OwnTeam")
+  opponentGamePlays GamePlay[] @relation("OpponentTeam")
+}
+
+model Player {
+  id        String     @id @default(uuid())
+  name      String
+  gamePlays GamePlay[]
+}
+
+enum Status {
+  Live
+  Scheduled
+  Ended
+}
+
+enum Position {
+  Goalie
+  Center
+  LeftWinger
+  RightWinger
+  LeftDefenseman
+  RightDefenseman
+}
