@@ -1,27 +1,13 @@
 import type { Request, Response } from "express";
-import axios from "axios";
 import { Cron } from "./cron";
 import { Event } from "./event";
 import { GameFeed, GameFeedItem, FeedArgs, Status } from "../../shared-types";
+import { queryFeed } from "./utils";
 
 export const cron = new Cron();
 export const event = new Event();
 
-export async function queryFeed<T extends {}>(url: string) {
-  return await axios.get<T>(url, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-}
-
-export function getGamesUpdated(
-  games: GameFeedItem[],
-  gamesMap: Map<string, GameFeedItem>
-): GameFeedItem[] {
-  return [];
-}
-
+// Data API store to pull and mutate data
 export class AppDataStore {
   private feedUrl = "";
   private games = new Map<string, GameFeedItem>();
@@ -31,6 +17,7 @@ export class AppDataStore {
     this.feedUrl = args.feedUrl;
   }
 
+  // Query all game feed
   async getAll(): Promise<GameFeedItem[]> {
     const {
       data: { games },
@@ -48,10 +35,13 @@ export class AppDataStore {
     return active;
   }
 
+  // Query the status of the games' live feed
   liveFeed(): boolean {
+    // This should be coming from the DB
     return this.isLiveFeeding;
   }
 
+  // Action to toggle the games' live feed status
   liveFeedToggle({ isLiveFeeding = false }: FeedArgs): boolean {
     const key = "feed";
     this.isLiveFeeding = isLiveFeeding;
@@ -91,6 +81,7 @@ export class AppDataStore {
     return true;
   }
 
+  // SSE subscription to games feed
   subscribe(_req: Request, res: Response) {
     res.set({
       "Cache-Control": "no-cache",

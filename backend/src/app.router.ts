@@ -8,9 +8,13 @@ export const datastore = new AppDataStore({
   feedUrl: "http://localhost:3001/feed-games.json",
 });
 
-appRouter.get("/all", async (_req, res: Response<GameFeedItem[]>) => {
-  const feed = await datastore.getAll();
-  res.status(200).send(feed);
+appRouter.get("/all", async (_req, res: Response<GameFeedItem[] | Error>) => {
+  try {
+    const feed = await datastore.getAll();
+    res.status(200).send(feed);
+  } catch (e) {
+    res.status(500).send(e as unknown as Error);
+  }
 });
 
 appRouter.get("/liveFeed", (_req, res: Response<boolean>) => {
