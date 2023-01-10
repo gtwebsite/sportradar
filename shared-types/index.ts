@@ -16,7 +16,6 @@ export interface GameFeed {
 export interface GameFeedItem {
   id: string;
   status: Status;
-  teams: string[];
 }
 
 export enum Status {

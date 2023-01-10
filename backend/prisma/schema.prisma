@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,45 +8,29 @@ datasource db {
 }
 
 model Game {
-  id              String     @id @default(uuid())
-  status          Status     @default(Scheduled)
-  dateTimeStarted DateTime?  @default(now())
+  id              String    @id @default(uuid())
+  status          Status    @default(Scheduled)
+  dateTimeStarted DateTime? @default(now())
   dateTimeEnded   DateTime?
-  gameplay        GamePlay[]
-  teams           String[]
+  players         Player[]
 }
 
-model GamePlay {
+model Player {
   id                String   @id @default(uuid())
+  playerName        String
   playerAge         Int
   playerNumber      Int
   playerPosition    Position
-  player            Player   @relation(fields: [playerId], references: [id])
   playerId          String
-  team              Team     @relation("OwnTeam", fields: [teamId], references: [id])
-  teamId            String
-  opponentTeam      Team     @relation("OpponentTeam", fields: [opponentTeamId], references: [id])
-  opponentTeamId    String
-  game              Game     @relation(fields: [gameId], references: [id])
-  gameId            String
   assists           Int
   goals             Int
   hits              Int
   points            Int
   penalityInMinutes Int
-}
-
-model Team {
-  id                String     @id @default(uuid())
-  name              String
-  gamePlays         GamePlay[] @relation("OwnTeam")
-  opponentGamePlays GamePlay[] @relation("OpponentTeam")
-}
-
-model Player {
-  id        String     @id @default(uuid())
-  name      String
-  gamePlays GamePlay[]
+  team              String
+  opponent          String
+  game              Game     @relation(fields: [gameId], references: [id])
+  gameId            String
 }
 
 enum Status {

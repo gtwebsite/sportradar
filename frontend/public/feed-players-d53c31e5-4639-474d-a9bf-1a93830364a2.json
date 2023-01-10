@@ -2,25 +2,25 @@
   "name": "NHL players feed",
   "players": [
     {
-      "playerId": "68ea94a3-7724-415d-909a-cd0db8aaf204",
+      "id": "cfedb6cc-2dd5-4f8a-9e92-d9c12201f974",
+      "gameId": "d53c31e5-4639-474d-a9bf-1a93830364a2",
       "playerName": "John Doe",
-      "teamId": "3dec6239-aece-4d46-ae7a-d7ff02267c14",
-      "teamName": "Boston Bruins",
+      "team": "Boston Bruins",
       "playerAge": 25,
       "playerNumber": 23,
       "playerPosition": "Goalie",
-      "assists": 0,
+      "assists": 13,
       "goals": 0,
       "hits": 0,
       "points": 0,
       "penalityInMinutes": 0,
-      "opponentTeamId": "001da9a9-dcd2-476d-add5-dfca05682bca"
+      "opponent": "Chicago Blackhawks"
     },
     {
-      "id": "e71eca9c-dc8c-4816-bde9-3ebdb2a1e31c",
+      "id": "251ae146-400e-4479-b9b6-3dee8f126656",
+      "gameId": "d53c31e5-4639-474d-a9bf-1a93830364a2",
       "playerName": "Robert Hall",
-      "teamId": "3dec6239-aece-4d46-ae7a-d7ff02267c14",
-      "teamName": "Boston Bruins",
+      "team": "Boston Bruins",
       "playerAge": 19,
       "playerNumber": 8,
       "playerPosition": "Center",
@@ -29,22 +29,22 @@
       "hits": 0,
       "points": 0,
       "penalityInMinutes": 0,
-      "opponentTeamId": "001da9a9-dcd2-476d-add5-dfca05682bca"
+      "opponent": "Chicago Blackhawks"
     },
     {
-      "id": "4dea8931-9b2f-458e-9c25-ad22d7274393",
+      "id": "857814e5-0fbb-41be-8260-3685528e9dcd",
+      "gameId": "d53c31e5-4639-474d-a9bf-1a93830364a2",
       "playerName": "Tony Mack",
-      "teamId": "001da9a9-dcd2-476d-add5-dfca05682bca",
-      "teamName": "Chicago Blackhawks",
+      "team": "Chicago Blackhawks",
       "playerAge": 23,
       "playerNumber": 11,
       "playerPosition": "Goalie",
-      "assists": 0,
+      "assists": 2,
       "goals": 0,
       "hits": 0,
       "points": 0,
       "penalityInMinutes": 0,
-      "opponentTeamId": "e71eca9c-dc8c-4816-bde9-3ebdb2a1e31c"
+      "opponent": "Boston Bruins"
     }
   ]
 }

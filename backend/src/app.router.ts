@@ -2,20 +2,39 @@ import express from "express";
 import type { Request, Response } from "express";
 import { AppDataStore } from "./app.datastore";
 import type { FeedArgs, GameFeedItem } from "../../shared-types";
+import type { Game, Player } from "@prisma/client";
 
 export const appRouter = express.Router();
 export const datastore = new AppDataStore({
-  feedUrl: "http://localhost:3001/feed-games.json",
+  feedUrl: "http://localhost:3001",
 });
 
-appRouter.get("/all", async (_req, res: Response<GameFeedItem[] | Error>) => {
+// Run live feed immediately
+datastore.liveFeedToggle({ isLiveFeeding: true });
+
+// Run mutation from events
+datastore.mutateAll();
+
+appRouter.get("/games", async (_req, res: Response<Game[] | Error>) => {
   try {
-    const feed = await datastore.getAll();
+    const feed = await datastore.getGames();
     res.status(200).send(feed);
   } catch (e) {
     res.status(500).send(e as unknown as Error);
   }
 });
+
+appRouter.get(
+  "/players/:id",
+  async (req: Request<{ id: string }>, res: Response<Player[] | Error>) => {
+    try {
+      const feed = await datastore.getPlayers(req.params.id);
+      res.status(200).send(feed);
+    } catch (e) {
+      res.status(500).send(e as unknown as Error);
+    }
+  }
+);
 
 appRouter.get("/liveFeed", (_req, res: Response<boolean>) => {
   res.status(200).send(datastore.liveFeed());
@@ -30,10 +49,26 @@ appRouter.post(
   }
 );
 
-appRouter.get("/subscribe", async (req, res) => {
+appRouter.get("/subscribeGames", async (req, res) => {
   if (req.headers.accept === "text/event-stream") {
-    datastore.subscribe(req, res);
+    datastore.subscribeGameEvent(req, res);
   } else {
     res.status(200).send({ message: "ok" });
   }
 });
+
+appRouter.get(
+  "/subscribePlayers/:id",
+  async (req: Request<{ id: string }>, res) => {
+    if (!req.params.id) {
+      res.status(500).send({ error: 1, message: "Required game ID" });
+      return;
+    }
+
+    if (req.headers.accept === "text/event-stream") {
+      datastore.subscribePlayerEvent(req, res);
+    } else {
+      res.status(200).send({ message: "ok" });
+    }
+  }
+);
