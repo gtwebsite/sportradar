@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { Game, Player, PrismaClient } from "@prisma/client";
-import { GameFeed, FeedArgs, Status } from "../../shared-types";
+import { GameFeed, FeedArgs, Status } from "@lib-types";
 import { queryFeed, Cron, Event } from "./utils";
 
 export const cron = new Cron();
@@ -20,14 +20,14 @@ export class AppDataStore {
   }
 
   // Query active game feed
-  async getGames(): Promise<Game[]> {
+  getGames(): Game[] {
     return [...this.games.values()]?.filter(
       (game) => game.status === Status.Live
     );
   }
 
   // Query active players feed
-  async getPlayers(id: string): Promise<Player[]> {
+  getPlayers(id: string): Player[] {
     return this.players.filter((player) => player.gameId === id);
   }
 

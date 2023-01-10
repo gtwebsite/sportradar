@@ -1,6 +1,6 @@
 import type { Game, Player } from "@prisma/client";
 import { EventEmitter } from "stream";
-import type { GameFeedItem } from "../../../shared-types";
+import type { GameFeedItem } from "@lib-types";
 
 export class Event extends EventEmitter {
   gameEvent(games: Game[]) {

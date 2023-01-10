@@ -26,3 +26,7 @@
 1. Run `yarn` for both folders
 1. Run `yarn dev` for both folders
 1. Visit `http://localhost:3001` for frontend, and endpoint for your API is `http://localhost:5001`
+
+## Test
+
+1. Run `yarn test`

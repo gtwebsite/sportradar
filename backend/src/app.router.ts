@@ -1,7 +1,7 @@
 import express from "express";
 import type { Request, Response } from "express";
 import { AppDataStore } from "./app.datastore";
-import type { FeedArgs, GameFeedItem } from "../../shared-types";
+import type { FeedArgs } from "@lib-types";
 import type { Game, Player } from "@prisma/client";
 
 export const appRouter = express.Router();
@@ -15,9 +15,9 @@ datastore.liveFeedToggle({ isLiveFeeding: true });
 // Run mutation from events
 datastore.mutateAll();
 
-appRouter.get("/games", async (_req, res: Response<Game[] | Error>) => {
+appRouter.get("/games", (_req, res: Response<Game[] | Error>) => {
   try {
-    const feed = await datastore.getGames();
+    const feed = datastore.getGames();
     res.status(200).send(feed);
   } catch (e) {
     res.status(500).send(e as unknown as Error);
@@ -26,9 +26,9 @@ appRouter.get("/games", async (_req, res: Response<Game[] | Error>) => {
 
 appRouter.get(
   "/players/:id",
-  async (req: Request<{ id: string }>, res: Response<Player[] | Error>) => {
+  (req: Request<{ id: string }>, res: Response<Player[] | Error>) => {
     try {
-      const feed = await datastore.getPlayers(req.params.id);
+      const feed = datastore.getPlayers(req.params.id);
       res.status(200).send(feed);
     } catch (e) {
       res.status(500).send(e as unknown as Error);

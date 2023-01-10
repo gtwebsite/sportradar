@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import type { ArgumentTypes } from "../../../shared-types";
+import type { ArgumentTypes } from "@lib-types";
 
 export class Cron {
   private jobs = new Map<string, cron.ScheduledTask>();
