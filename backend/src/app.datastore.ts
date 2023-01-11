@@ -1,7 +1,8 @@
 import type { Request, Response } from "express";
 import { Game, Player, PrismaClient } from "@prisma/client";
 import { GameFeed, FeedArgs, Status } from "@lib-types";
-import { queryFeed, Cron, Event } from "./utils";
+import { Cron, Event } from "./utils";
+import axios, { AxiosPromise } from "axios";
 
 export const cron = new Cron();
 export const event = new Event();
@@ -66,7 +67,7 @@ export class AppDataStore {
     cron.start(key, cronExpression, async () => {
       const {
         data: { games },
-      } = await queryFeed<GameFeed>(`${this.feedUrl}/feed-games.json`);
+      } = await this.queryFeed<GameFeed>(`${this.feedUrl}/feed-games.json`);
 
       if (games.length <= 0) {
         return;
@@ -205,7 +206,7 @@ export class AppDataStore {
       games.map(async (game) => {
         const {
           data: { players },
-        } = await queryFeed<{
+        } = await this.queryFeed<{
           name: string;
           players: Player[];
         }>(`${this.feedUrl}/feed-players-${game}.json`);
@@ -259,5 +260,14 @@ export class AppDataStore {
     );
 
     return Promise.all(transactions.flat());
+  }
+
+  // Querying feed
+  async queryFeed<T extends {}>(url: string): AxiosPromise<T> {
+    return await axios.get<T>(url, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 }

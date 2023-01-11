@@ -26,6 +26,8 @@
 1. Run `yarn` for both folders
 1. Run `yarn dev` for both folders
 1. Visit `http://localhost:3001` for frontend, and endpoint for your API is `http://localhost:5001`
+1. By default, live feed is enabled, toggling it off in the client will remove any events
+1. Editing directly `frontend/public/feed-games.json` and `frontend/public/feed-players-*.json` will update changes in the backend and in the frontend
 
 ## Test
 
